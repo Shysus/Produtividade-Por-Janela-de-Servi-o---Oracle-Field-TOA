@@ -35,7 +35,7 @@ def criar_grafico_plotly(df, janela):
     fig.update_layout(xaxis={'categoryorder':'total descending'})
     return fig
 
-# Função placeholder para gerar PDF
+# Função placeholder para gerar PDF // Não finalizado. Ignorar. 
 def gerar_pdf():
     st.write("A função para gerar PDF será implementada em seu ambiente local.")
 
@@ -54,7 +54,7 @@ with st.sidebar:
         adicionar_atividade(cidade_selecionada, janela_selecionada, nome_atividade, total_atividade, total_executado)
         st.success('Atividade adicionada com sucesso!')
 
-# Botão para gerar PDF
+# Botão para gerar PDF 
 if st.button('Gerar PDF'):
     gerar_pdf()
 
