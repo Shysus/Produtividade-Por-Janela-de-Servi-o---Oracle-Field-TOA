@@ -76,14 +76,7 @@ def criar_grafico_produtividade_por_janela(df, cidade):
     )
     return fig
 
-# Interface do Usuário no Streamlit para Upload, Visualização de Dados e Gráficos
-import streamlit as st
-import pandas as pd
-import plotly.graph_objects as go
-import numpy as np
-
 # Definição das funções de cálculo...
-
 def interface_usuario():
     st.title('Dashboard de Produtividade')
     uploaded_file = st.file_uploader("Escolha o arquivo de planilha", type=['xlsx'])
@@ -140,6 +133,10 @@ if __name__ == "__main__":
 janelas_de_servico = ["08:00 - 12:00", "12:00 - 15:00", "15:00 - 18:00"]
 cidades = ["Dourados - MS", "Naviraí - MS", "Ponta Porã - MS"]
 
+# Definição das Janelas de Serviço e Cidades
+janelas_de_servico = ["08:00 - 12:00", "12:00 - 15:00", "15:00 - 18:00"]
+cidades = ["Dourados - MS", "Naviraí - MS", "Ponta Porã - MS"]
+
 # Função para obter a sessão atual do usuário
 def get_session_state():
     if 'dados_atividades' not in st.session_state:
@@ -148,7 +145,7 @@ def get_session_state():
 
 # Adiciona uma nova atividade à sessão atual
 def adicionar_atividade(cidade, janela, nome_atividade, total, executado):
-    produtividade = (executado / total) * 100 if total > 0 else 0
+    produtividade = f"{(executado / total * 100):.2f}%" if total > 0 else "0%"
     get_session_state().append({
         "Cidade": cidade,
         "Janela": janela,
@@ -160,6 +157,7 @@ def adicionar_atividade(cidade, janela, nome_atividade, total, executado):
 
 # Função para criar gráficos com Plotly
 def criar_grafico_plotly(df, janela):
+    df["Produtividade"] = df["Produtividade"].str.rstrip('%').astype('float') / 100
     fig = px.bar(df, x='Atividade', y='Produtividade',
                  title=f'Produtividade por Atividade - {janela}',
                  labels={'Produtividade': 'Produtividade (%)', 'Atividade': 'Atividade'},
